@@ -67,15 +67,13 @@
 
   <script>
     "use strict";
-    // Доступ к элементам
     const nameEl = document.getElementById('input-name');
     const textEl = document.getElementById('input-text');
     const listEl = document.getElementById('list');
     const buttonEl = document.getElementById('button-add');
-    const btnLike = document.querySelectorAll('.like-button');
 
     buttonEl.addEventListener('click', () => {
-      // Удаление стилей в полях при вводе
+
       nameEl.addEventListener('input', () => {
         nameEl.classList.remove('error');
       });
@@ -83,7 +81,7 @@
       textEl.addEventListener('input', () => {
         textEl.classList.remove('error');
       });
-      // Валидация введенных данных в полях
+
       if (!nameEl.value) {
         nameEl.classList.add("error");
       }
@@ -93,11 +91,8 @@
       if (!nameEl.value || !textEl.value)
       return;
 
-      // Содержимое списка в исходном состоянии
       const listOld = listEl.innerHTML;
 
-      // Шаблонные строки
-      const userName = `<div>${nameEl.value}</div>`;
       const now = new Date();
       const day = now.toLocaleDateString("RU-ru", {
         day: "2-digit",
@@ -108,44 +103,29 @@
         hour: "2-digit",
         minute:"2-digit"
       });
-      const userDate = `<div>${day} ${time}</div>`;
 
-      // Создание элементов
-      const liEl = document.createElement('li');
-      const divHeaderEl = document.createElement('div');
-      const divBodyEl = document.createElement('div');
-      const divTextEl = document.createElement('div');
-      const divFooterEl = document.createElement('div');
-      const divLikesEl = document.createElement('div');
-      const spanEl = document.createElement('span');
-      const btnEl = document.createElement('button');
-
-      // Стилизация элементов
-      liEl.classList.add('comment');
-      divHeaderEl.classList.add('comment-header');
-      divBodyEl.classList.add('comment-body');
-      divTextEl.classList.add('comment-text');
-      divFooterEl.classList.add('comment-footer');
-      divLikesEl.classList.add('likes');
-      spanEl.classList.add('likes-counter');
-      btnEl.classList.add('like-button');
-
-      // Вложение элементов
-      liEl.append(divHeaderEl, divBodyEl, divFooterEl);
-      divBodyEl.appendChild(divTextEl);
-      divLikesEl.append(spanEl, btnEl);
-      divFooterEl.appendChild(divLikesEl);
-
-      // Передача данных для нового комментария
-      divHeaderEl.innerHTML = userName + userDate;
-      divTextEl.textContent = `${textEl.value}`
-
-      // Добавление счетчика лайков
       let counter = 0;
-      spanEl.textContent = counter;
 
-      // Добавление нового комментария
-      listEl.innerHTML = listOld + liEl.outerHTML;
+      const newComment = `<li class="comment">
+      <div class="comment-header">
+        <div>${nameEl.value}</div>
+        <div>${day} ${time}</div>
+      </div>
+      <div class="comment-body">
+        <div class="comment-text">
+          ${textEl.value}
+        </div>
+      </div>
+      <div class="comment-footer">
+        <div class="likes">
+          <span class="likes-counter">${counter}</span>
+          <button class="like-button -active-like"></button>
+        </div>
+      </div>
+      </li>
+      `
+
+      listEl.innerHTML = listOld + newComment;
 
     });
 
