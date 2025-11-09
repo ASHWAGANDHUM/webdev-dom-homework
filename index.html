@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <ul class="comments" id="list">
-        <li class="comment">
+        <!-- <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
             <div>12.02.22 12:18</div>
@@ -42,7 +42,7 @@
               <button class="like-button -active-like"></button>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
       <div class="add-form">
         <input
@@ -94,7 +94,14 @@
     for (const likeElement of likesElements) {
       likeElement.addEventListener('click', () => {
         const index = likeElement.dataset.index;
-        console.log(index);
+        const comment = comments[index];
+        comment.isLiked = !comment.isLiked;
+
+        if (comment.isLiked) {
+          comment.likes++
+        } else {
+          comment.likes--
+        }
 
         renderComments();
       });
