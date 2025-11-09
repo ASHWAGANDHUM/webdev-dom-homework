@@ -39,7 +39,7 @@
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">75</span>
-              <button class="like-button -active-like" id="button-like"></button>
+              <button class="like-button -active-like"></button>
             </div>
           </div>
         </li>
@@ -71,7 +71,6 @@
     const textEl = document.getElementById('input-text');
     const listEl = document.getElementById('list');
     const buttonEl = document.getElementById('button-add');
-    // const likeEl = document.getElementById('button-like')
 
     const comments = [
       {
@@ -89,8 +88,21 @@
       }
     ]
 
+    const initLikeListeners = () => {
+    const likesElements = document.querySelectorAll('.like-button');
+
+    for (const likeElement of likesElements) {
+      likeElement.addEventListener('click', () => {
+        const index = likeElement.dataset.index;
+        console.log(index);
+
+        renderComments();
+      });
+    }
+  }
+
     const renderComments = () => {
-      const commentsHtml = comments.map((comment) => {
+      const commentsHtml = comments.map((comment, index) => {
         return `
         <li class="comment">
           <div class="comment-header">
@@ -103,7 +115,7 @@
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${comment.likes}</span>
-              <button class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
+              <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
             </div>
           </div>
         </li>
@@ -111,6 +123,8 @@
       }).join("");
 
       listEl.innerHTML = commentsHtml;
+
+      initLikeListeners();
     }
 
     renderComments();
