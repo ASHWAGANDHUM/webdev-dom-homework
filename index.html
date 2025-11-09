@@ -39,7 +39,7 @@
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
+              <button class="like-button -active-like" id="button-like"></button>
             </div>
           </div>
         </li>
@@ -71,6 +71,7 @@
     const textEl = document.getElementById('input-text');
     const listEl = document.getElementById('list');
     const buttonEl = document.getElementById('button-add');
+    // const likeEl = document.getElementById('button-like')
 
     const comments = [
       {
@@ -102,7 +103,7 @@
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${comment.likes}</span>
-              <button class="like-button"></button>
+              <button class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
             </div>
           </div>
         </li>
@@ -110,7 +111,6 @@
       }).join("");
 
       listEl.innerHTML = commentsHtml;
-      
     }
 
     renderComments();
