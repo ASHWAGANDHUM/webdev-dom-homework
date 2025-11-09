@@ -148,8 +148,6 @@
       if (!nameEl.value || !textEl.value)
       return;
 
-      const listOld = listEl.innerHTML;
-
       const now = new Date();
       const day = now.toLocaleDateString("RU-ru", {
         day: "2-digit",
@@ -161,29 +159,16 @@
         minute:"2-digit"
       });
 
-      let counter = 0;
+      const newComment = {
+        name: nameEl.value,
+        date: `${day} ${time}`,
+        text: textEl.value,
+        likes: 0,
+        isLiked: false
+      }
 
-      const newComment = `<li class="comment">
-      <div class="comment-header">
-        <div>${nameEl.value}</div>
-        <div>${day} ${time}</div>
-      </div>
-      <div class="comment-body">
-        <div class="comment-text">
-          ${textEl.value}
-        </div>
-      </div>
-      <div class="comment-footer">
-        <div class="likes">
-          <span class="likes-counter">${counter}</span>
-          <button class="like-button"></button>
-        </div>
-      </div>
-      </li>
-      `
-
-      listEl.innerHTML = listOld + newComment;
-
+      comments.push(newComment);
+      renderComments()
     });
 
   </script>
