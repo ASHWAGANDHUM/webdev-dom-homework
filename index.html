@@ -72,6 +72,49 @@
     const listEl = document.getElementById('list');
     const buttonEl = document.getElementById('button-add');
 
+    const comments = [
+      {
+        name: "Глеб Фокин",
+        date: "12.02.22 12:18",
+        text: "Это будет первый комментарий на этой странице",
+        likes: 3,
+        isLiked: false
+      },
+      { name: "Варвара Н.",
+        date: "13.02.22 19:22",
+        text: "Мне нравится как оформлена эта страница! ❤",
+        likes: 75,
+        isLiked: true
+      }
+    ]
+
+    const renderComments = () => {
+      const commentsHtml = comments.map((comment) => {
+        return `
+        <li class="comment">
+          <div class="comment-header">
+            <div>${comment.name}</div>
+            <div>${comment.date}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">${comment.text}</div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${comment.likes}</span>
+              <button class="like-button"></button>
+            </div>
+          </div>
+        </li>
+        `;
+      }).join("");
+
+      listEl.innerHTML = commentsHtml;
+      
+    }
+
+    renderComments();
+
     buttonEl.addEventListener('click', () => {
 
       nameEl.addEventListener('input', () => {
