@@ -146,13 +146,13 @@
         textEl.classList.remove('error');
       });
 
-      if (!nameEl.value) {
+      if (!nameEl.value.trim()) {
         nameEl.classList.add("error");
       }
-      if (!textEl.value) {
+      if (!textEl.value.trim()) {
         textEl.classList.add("error");
       }
-      if (!nameEl.value || !textEl.value)
+      if (!nameEl.value.trim() || !textEl.value.trim())
       return;
 
       const now = new Date();
