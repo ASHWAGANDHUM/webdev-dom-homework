@@ -92,7 +92,9 @@
       const likesElements = document.querySelectorAll('.like-button');
 
       for (const likeElement of likesElements) {
-        likeElement.addEventListener('click', () => {
+        likeElement.addEventListener('click', (event) => {
+          event.stopPropagation();
+
           const index = likeElement.dataset.index;
           const comment = comments[index];
           comment.isLiked = !comment.isLiked;
@@ -112,7 +114,7 @@
         const quoteElements = document.querySelectorAll('li');
 
         for (const quoteElement of quoteElements) {
-          quoteElement.addEventListener('click', () => {
+          quoteElement.addEventListener('click', (event) => {
             const index = quoteElement.dataset.index;
             const comment = comments[index];
 
