@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <ul class="comments" id="list">
-        <li class="comment">
+        <!-- <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
             <div>12.02.22 12:18</div>
@@ -42,7 +42,7 @@
               <button class="like-button -active-like"></button>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
       <div class="add-form">
         <input
@@ -72,6 +72,70 @@
     const listEl = document.getElementById('list');
     const buttonEl = document.getElementById('button-add');
 
+    const comments = [
+      {
+        name: "Глеб Фокин",
+        date: "12.02.22 12:18",
+        text: "Это будет первый комментарий на этой странице",
+        likes: 3,
+        isLiked: false
+      },
+      { name: "Варвара Н.",
+        date: "13.02.22 19:22",
+        text: "Мне нравится как оформлена эта страница! ❤",
+        likes: 75,
+        isLiked: true
+      }
+    ]
+
+    const initLikeListeners = () => {
+    const likesElements = document.querySelectorAll('.like-button');
+
+    for (const likeElement of likesElements) {
+      likeElement.addEventListener('click', () => {
+        const index = likeElement.dataset.index;
+        const comment = comments[index];
+        comment.isLiked = !comment.isLiked;
+
+        if (comment.isLiked) {
+          comment.likes++
+        } else {
+          comment.likes--
+        }
+
+        renderComments();
+      });
+    }
+  }
+
+    const renderComments = () => {
+      const commentsHtml = comments.map((comment, index) => {
+        return `
+        <li class="comment">
+          <div class="comment-header">
+            <div>${comment.name}</div>
+            <div>${comment.date}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">${comment.text}</div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${comment.likes}</span>
+              <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
+            </div>
+          </div>
+        </li>
+        `;
+      }).join("");
+
+      listEl.innerHTML = commentsHtml;
+
+      initLikeListeners();
+    }
+
+    renderComments();
+
     buttonEl.addEventListener('click', () => {
 
       nameEl.addEventListener('input', () => {
@@ -82,16 +146,14 @@
         textEl.classList.remove('error');
       });
 
-      if (!nameEl.value) {
+      if (!nameEl.value.trim()) {
         nameEl.classList.add("error");
       }
-      if (!textEl.value) {
+      if (!textEl.value.trim()) {
         textEl.classList.add("error");
       }
-      if (!nameEl.value || !textEl.value)
+      if (!nameEl.value.trim() || !textEl.value.trim())
       return;
-
-      const listOld = listEl.innerHTML;
 
       const now = new Date();
       const day = now.toLocaleDateString("RU-ru", {
@@ -104,29 +166,16 @@
         minute:"2-digit"
       });
 
-      let counter = 0;
+      const newComment = {
+        name: nameEl.value,
+        date: `${day} ${time}`,
+        text: textEl.value,
+        likes: 0,
+        isLiked: false
+      }
 
-      const newComment = `<li class="comment">
-      <div class="comment-header">
-        <div>${nameEl.value}</div>
-        <div>${day} ${time}</div>
-      </div>
-      <div class="comment-body">
-        <div class="comment-text">
-          ${textEl.value}
-        </div>
-      </div>
-      <div class="comment-footer">
-        <div class="likes">
-          <span class="likes-counter">${counter}</span>
-          <button class="like-button -active-like"></button>
-        </div>
-      </div>
-      </li>
-      `
-
-      listEl.innerHTML = listOld + newComment;
-
+      comments.push(newComment);
+      renderComments()
     });
 
   </script>
