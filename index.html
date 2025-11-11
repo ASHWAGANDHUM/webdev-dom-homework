@@ -89,29 +89,44 @@
     ]
 
     const initLikeListeners = () => {
-    const likesElements = document.querySelectorAll('.like-button');
+      const likesElements = document.querySelectorAll('.like-button');
 
-    for (const likeElement of likesElements) {
-      likeElement.addEventListener('click', () => {
-        const index = likeElement.dataset.index;
-        const comment = comments[index];
-        comment.isLiked = !comment.isLiked;
+      for (const likeElement of likesElements) {
+        likeElement.addEventListener('click', () => {
+          const index = likeElement.dataset.index;
+          const comment = comments[index];
+          comment.isLiked = !comment.isLiked;
 
-        if (comment.isLiked) {
-          comment.likes++
-        } else {
-          comment.likes--
-        }
+          if (comment.isLiked) {
+            comment.likes++
+          } else {
+            comment.likes--
+          }
 
-        renderComments();
-      });
+          renderComments();
+        });
+      }
     }
-  }
+
+      const initQuoteListeners = () => {
+        const quoteElements = document.querySelectorAll('li');
+
+        for (const quoteElement of quoteElements) {
+          quoteElement.addEventListener('click', () => {
+            const index = quoteElement.dataset.index;
+            const comment = comments[index];
+
+            textEl.value = `> "${comment.text}" © ${comment.name}`;
+
+            renderComments();
+          });
+        }
+      }
 
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
         return `
-        <li class="comment">
+        <li data-index="${index}" class="comment">
           <div class="comment-header">
             <div>${comment.name}</div>
             <div>${comment.date}</div>
@@ -132,6 +147,7 @@
       listEl.innerHTML = commentsHtml;
 
       initLikeListeners();
+      initQuoteListeners();
     }
 
     renderComments();
