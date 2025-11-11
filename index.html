@@ -66,6 +66,7 @@
   </body>
 
   <script>
+    // <img src="" onerror=`alert('Ваши данные утекли!);`>
     "use strict";
     const nameEl = document.getElementById('input-name');
     const textEl = document.getElementById('input-text');
@@ -130,11 +131,11 @@
         return `
         <li data-index="${index}" class="comment">
           <div class="comment-header">
-            <div>${comment.name}</div>
+            <div>${comment.name.replaceAll("<","&lt;").replaceAll(">", "&gt;")}</div>
             <div>${comment.date}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text">${comment.text}</div>
+            <div class="comment-text">${comment.text.replaceAll("<","&lt;").replaceAll(">", "&gt;")}</div>
           </div>
           <div class="comment-footer">
             <div class="likes">
@@ -154,15 +155,15 @@
 
     renderComments();
 
+    nameEl.addEventListener('input', () => {
+      nameEl.classList.remove('error');
+    });
+
+    textEl.addEventListener('input', () => {
+      textEl.classList.remove('error');
+    });
+
     buttonEl.addEventListener('click', () => {
-
-      nameEl.addEventListener('input', () => {
-        nameEl.classList.remove('error');
-      });
-
-      textEl.addEventListener('input', () => {
-        textEl.classList.remove('error');
-      });
 
       if (!nameEl.value.trim()) {
         nameEl.classList.add("error");
