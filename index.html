@@ -66,7 +66,6 @@
   </body>
 
   <script>
-    // <img src="" onerror=`alert('Ваши данные утекли!);`>
     "use strict";
     const nameEl = document.getElementById('input-name');
     const textEl = document.getElementById('input-text');
@@ -89,42 +88,24 @@
       }
     ]
 
-    const initLikeListeners = () => {
-      const likesElements = document.querySelectorAll('.like-button');
+    const initCommentsListeners = () => {
+      listEl.addEventListener('click', (event) => {
+        const li = event.target.closest('li');
+        if (!li) return;
 
-      for (const likeElement of likesElements) {
-        likeElement.addEventListener('click', (event) => {
-          event.stopPropagation();
+        const index = Number(li.dataset.index);
+        const comment = comments[index];
 
-          const index = likeElement.dataset.index;
-          const comment = comments[index];
+        if (event.target.closest('.like-button')) {
           comment.isLiked = !comment.isLiked;
-
-          if (comment.isLiked) {
-            comment.likes++
-          } else {
-            comment.likes--
-          }
-
+          comment.likes += comment.isLiked ? 1 : -1;
           renderComments();
-        });
-      }
-    }
-
-      const initQuoteListeners = () => {
-        const quoteElements = document.querySelectorAll('li');
-
-        for (const quoteElement of quoteElements) {
-          quoteElement.addEventListener('click', (event) => {
-            const index = quoteElement.dataset.index;
-            const comment = comments[index];
-
-            textEl.value = `> "${comment.text}" © ${comment.name}`;
-
-            renderComments();
-          });
+          return;
         }
-      }
+
+        textEl.value = `> "${comment.text}" © ${comment.name}`;
+      });
+    };
 
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
@@ -140,7 +121,7 @@
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${comment.likes}</span>
-              <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
+              <button class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
             </div>
           </div>
         </li>
@@ -148,12 +129,10 @@
       }).join("");
 
       listEl.innerHTML = commentsHtml;
-
-      initLikeListeners();
-      initQuoteListeners();
     }
 
     renderComments();
+    initCommentsListeners();
 
     nameEl.addEventListener('input', () => {
       nameEl.classList.remove('error');
