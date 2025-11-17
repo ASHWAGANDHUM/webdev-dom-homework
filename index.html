@@ -107,16 +107,20 @@
       });
     };
 
+    const replaceStrings = (str) => {
+      return str.replaceAll("<","&lt;").replaceAll(">", "&gt;");
+    }
+
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
         return `
         <li data-index="${index}" class="comment">
           <div class="comment-header">
-            <div>${comment.name.replaceAll("<","&lt;").replaceAll(">", "&gt;")}</div>
-            <div>${comment.date}</div>
+            <div>${replaceStrings(comment.name)}</div>
+            <div>${replaceStrings(comment.date)}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text">${comment.text.replaceAll("<","&lt;").replaceAll(">", "&gt;")}</div>
+            <div class="comment-text">${replaceStrings(comment.text)}</div>
           </div>
           <div class="comment-footer">
             <div class="likes">
