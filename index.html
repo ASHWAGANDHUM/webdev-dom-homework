@@ -88,41 +88,44 @@
       }
     ]
 
-    const initLikeListeners = () => {
-    const likesElements = document.querySelectorAll('.like-button');
+    const initCommentsListeners = () => {
+      listEl.addEventListener('click', (event) => {
+        const li = event.target.closest('li');
+        if (!li) return;
 
-    for (const likeElement of likesElements) {
-      likeElement.addEventListener('click', () => {
-        const index = likeElement.dataset.index;
+        const index = Number(li.dataset.index);
         const comment = comments[index];
-        comment.isLiked = !comment.isLiked;
 
-        if (comment.isLiked) {
-          comment.likes++
-        } else {
-          comment.likes--
+        if (event.target.closest('.like-button')) {
+          comment.isLiked = !comment.isLiked;
+          comment.likes += comment.isLiked ? 1 : -1;
+          renderComments();
+          return;
         }
 
-        renderComments();
+        textEl.value = `> "${comment.text}" © ${comment.name}`;
       });
+    };
+
+    const replaceStrings = (str) => {
+      return str.replaceAll("<","&lt;").replaceAll(">", "&gt;");
     }
-  }
 
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
         return `
-        <li class="comment">
+        <li data-index="${index}" class="comment">
           <div class="comment-header">
-            <div>${comment.name}</div>
-            <div>${comment.date}</div>
+            <div>${replaceStrings(comment.name)}</div>
+            <div>${replaceStrings(comment.date)}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text">${comment.text}</div>
+            <div class="comment-text">${replaceStrings(comment.text)}</div>
           </div>
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${comment.likes}</span>
-              <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
+              <button class="like-button ${comment.isLiked ? "-active-like" : ""}"></button>
             </div>
           </div>
         </li>
@@ -130,21 +133,20 @@
       }).join("");
 
       listEl.innerHTML = commentsHtml;
-
-      initLikeListeners();
     }
 
     renderComments();
+    initCommentsListeners();
+
+    nameEl.addEventListener('input', () => {
+      nameEl.classList.remove('error');
+    });
+
+    textEl.addEventListener('input', () => {
+      textEl.classList.remove('error');
+    });
 
     buttonEl.addEventListener('click', () => {
-
-      nameEl.addEventListener('input', () => {
-        nameEl.classList.remove('error');
-      });
-
-      textEl.addEventListener('input', () => {
-        textEl.classList.remove('error');
-      });
 
       if (!nameEl.value.trim()) {
         nameEl.classList.add("error");
