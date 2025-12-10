@@ -1,6 +1,6 @@
 import { renderComments } from './modules/renderComments.js'
 import { initCommentsListeners } from './modules/initListeners.js';
-import { comments } from './modules/comments.js'
+import { comments, updateComments } from './modules/comments.js'
 import { formatDate } from './modules/formatDate.js';
 
 const nameEl = document.getElementById('input-name');
@@ -9,7 +9,17 @@ const buttonEl = document.getElementById('button-add');
 export const listEl = document.getElementById('list');
 export const textEl = document.getElementById('input-text');
 
-renderComments()
+fetch('https://wedev-api.sky.pro/api/v1/philipp-kogai/comments', {
+    method: 'GET',
+})
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        updateComments(data.comments)
+        renderComments()
+    })
+
 initCommentsListeners()
 
 nameEl.addEventListener('input', () => {
