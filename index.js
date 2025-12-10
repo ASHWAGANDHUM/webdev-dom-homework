@@ -1,6 +1,6 @@
 import { renderComments } from './modules/renderComments.js'
 import { initCommentsListeners } from './modules/initListeners.js';
-import { comments, updateComments } from './modules/comments.js'
+import { updateComments } from './modules/comments.js'
 import { formatDate } from './modules/formatDate.js';
 
 const nameEl = document.getElementById('input-name');
@@ -9,7 +9,7 @@ const buttonEl = document.getElementById('button-add');
 export const listEl = document.getElementById('list');
 export const textEl = document.getElementById('input-text');
 
-fetch('https://wedev-api.sky.pro/api/v1/philipp-kogai/comments', {
+fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
     method: 'GET',
 })
     .then((response) => {
@@ -45,13 +45,22 @@ buttonEl.addEventListener('click', () => {
     const nowDate = formatDate(now);
 
     const newComment = {
-    name: nameEl.value,
-    date: nowDate,
-    text: textEl.value,
-    likes: 0,
-    isLiked: false
+        name: nameEl.value,
+        date: nowDate,
+        text: textEl.value,
+        likes: 0,
+        isLiked: false
     }
 
-    comments.push(newComment);
-    renderComments()
+    fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+    })
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            updateComments(data.comments)
+            renderComments()
+        })
 });
