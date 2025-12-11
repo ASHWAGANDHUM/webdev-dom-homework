@@ -9,6 +9,8 @@ const buttonEl = document.getElementById('button-add');
 export const listEl = document.getElementById('list');
 export const textEl = document.getElementById('input-text');
 
+listEl.innerHTML = `<li>Загрузка комментарии...</li>`;
+
 fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
     method: 'GET',
 })
@@ -52,6 +54,9 @@ buttonEl.addEventListener('click', () => {
         isLiked: false
     }
 
+    buttonEl.disabled = true;
+    buttonEl.textContent = "Отправка...";
+
     fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
         method: 'POST',
         body: JSON.stringify(newComment),
@@ -59,8 +64,26 @@ buttonEl.addEventListener('click', () => {
         .then((response) => {
             return response.json()
         })
+        .then(() => {
+            return fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments')
+        })
+        .then((response) => {
+            return response.json()
+        })
         .then((data) => {
             updateComments(data.comments)
             renderComments()
+            buttonEl.disabled = false;
+            buttonEl.textContent = "Написать";
+            textEl.value = "";
+        })
+        .catch(() => {
+            buttonEl.disabled = false;
+            buttonEl.textContent = "Ошибка";
+            buttonEl.classList.add("error");
+            setTimeout(() => {
+                buttonEl.textContent = "Написать";
+                buttonEl.classList.remove("error");
+            }, 1500);
         })
 });
