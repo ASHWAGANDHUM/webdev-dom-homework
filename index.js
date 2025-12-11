@@ -9,7 +9,7 @@ const buttonEl = document.getElementById('button-add');
 export const listEl = document.getElementById('list');
 export const textEl = document.getElementById('input-text');
 
-listEl.innerHTML = `<li>Загрузка комментарии...</li>`;
+listEl.innerHTML = `<li>Загрузка комментариев...</li>`;
 
 fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
     method: 'GET',
