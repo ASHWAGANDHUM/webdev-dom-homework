@@ -2,7 +2,7 @@ import { renderComments } from './renderComments.js'
 import { updateComments } from './comments.js'
 
 export const fetchAndRenderComments = () => {
-    return fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
+    return fetch('https://wedev-api.sky.pro/api/v1/philip-kogai/comments', {
         method: 'GET',
     })
         .then((response) => {

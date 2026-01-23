@@ -55,7 +55,7 @@ buttonEl.addEventListener('click', () => {
     formEl.classList.add("hidden");
     addCommentPlaceholderEl.classList.remove("hidden");
 
-    fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
+    fetch('https://wedev-api.sky.pro/api/v1/philip-kogai/comments', {
         method: 'POST',
         body: JSON.stringify(newComment),
     })
