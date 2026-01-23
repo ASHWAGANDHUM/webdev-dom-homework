@@ -10,6 +10,12 @@ export const textEl = document.getElementById('input-text');
 
 listEl.innerHTML = `<li>Загрузка комментариев...</li>`;
 
+const addCommentPlaceholderEl = document.createElement("div");
+addCommentPlaceholderEl.textContent = "Добавление комментария...";
+addCommentPlaceholderEl.className = "comment-placeholder hidden";
+
+listEl.after(addCommentPlaceholderEl);
+
 fetchAndRenderComments()
 
 initCommentsListeners()
@@ -44,8 +50,10 @@ buttonEl.addEventListener('click', () => {
         isLiked: false
     }
 
-    buttonEl.disabled = true;
-    buttonEl.textContent = "Отправка...";
+    const formEl = document.querySelector('.add-form');
+
+    formEl.classList.add("hidden");
+    addCommentPlaceholderEl.classList.remove("hidden");
 
     fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
         method: 'POST',
@@ -58,11 +66,16 @@ buttonEl.addEventListener('click', () => {
             return fetchAndRenderComments()
         })
         .then(() => {
-            buttonEl.disabled = false;
-            buttonEl.textContent = "Написать";
+            addCommentPlaceholderEl.classList.add("hidden");
+            formEl.classList.remove("hidden");
+
+            nameEl.value = "";
             textEl.value = "";
         })
         .catch(() => {
+            addCommentPlaceholderEl.classList.add("hidden");
+            formEl.classList.remove("hidden");
+
             buttonEl.disabled = false;
             buttonEl.textContent = "Ошибка";
             buttonEl.classList.add("error");

@@ -136,6 +136,19 @@ body {
     opacity: 0.9;
   }
 
-    .error {
+  .error {
     background-color: #ff0000;
+  }
+
+  .comment-placeholder {
+    margin: 24px;
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .add-form.hidden {
+    display: none;
   }
