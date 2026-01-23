@@ -1,6 +1,5 @@
-import { renderComments } from './modules/renderComments.js'
+import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js';
 import { initCommentsListeners } from './modules/initListeners.js';
-import { updateComments } from './modules/comments.js'
 import { formatDate } from './modules/formatDate.js';
 
 const nameEl = document.getElementById('input-name');
@@ -11,16 +10,7 @@ export const textEl = document.getElementById('input-text');
 
 listEl.innerHTML = `<li>Загрузка комментариев...</li>`;
 
-fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments', {
-    method: 'GET',
-})
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        updateComments(data.comments)
-        renderComments()
-    })
+fetchAndRenderComments()
 
 initCommentsListeners()
 
@@ -65,14 +55,9 @@ buttonEl.addEventListener('click', () => {
             return response.json()
         })
         .then(() => {
-            return fetch('https://wedev-api.sky.pro/api/v1/philip-k/comments')
+            return fetchAndRenderComments()
         })
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            updateComments(data.comments)
-            renderComments()
+        .then(() => {
             buttonEl.disabled = false;
             buttonEl.textContent = "Написать";
             textEl.value = "";
