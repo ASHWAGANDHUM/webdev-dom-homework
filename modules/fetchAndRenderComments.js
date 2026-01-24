@@ -1,13 +1,9 @@
 import { renderComments } from './renderComments.js'
 import { updateComments } from './comments.js'
+import { getComments } from './api.js'
 
 export const fetchAndRenderComments = () => {
-    return fetch('https://wedev-api.sky.pro/api/v1/philip-kogai/comments', {
-        method: 'GET',
-    })
-        .then((response) => {
-            return response.json()
-        })
+    return getComments()
         .then((data) => {
             updateComments(data.comments)
             renderComments()
