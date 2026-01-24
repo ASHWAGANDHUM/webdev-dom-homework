@@ -3,20 +3,29 @@ import { comments } from './comments.js'
 import { listEl, textEl } from '../index.js'
 
 export const initCommentsListeners = () => {
-    listEl.addEventListener('click', (event) => {
-    const li = event.target.closest('li');
-    if (!li) return;
+    const likesElements = document.querySelectorAll('.like-button');
 
-    const index = Number(li.dataset.index);
-    const comment = comments[index];
+    likesElements.forEach((button) => {
+        button.addEventListener('click', (event) => {
 
-    if (event.target.closest('.like-button')) {
+        event.stopPropagation();
+
+        const index = Number(button.dataset.index);
+        const comment = comments[index];
+
         comment.isLiked = !comment.isLiked;
         comment.likes += comment.isLiked ? 1 : -1;
-        renderComments();
-        return;
-    }
 
-    textEl.value = `> "${comment.text}" © ${comment.name}`;
+        renderComments();
+        });
+    });
+
+    const commentElements = document.querySelectorAll('.comment');
+
+    commentElements.forEach((commentEl, index) => {
+        commentEl.addEventListener('click', () => {
+        const comment = comments[index];
+        textEl.value = `> "${comment.text}" © ${comment.author.name}`;
+        });
     });
 };
