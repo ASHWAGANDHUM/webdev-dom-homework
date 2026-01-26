@@ -4,7 +4,15 @@ import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 import { addComment } from './api.js';
 import { formatDate } from './formatDate.js';
 
-// import { listEl, textEl } from '../index.js'
+
+function delay(interval = 300) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+        resolve();
+        }, interval);
+    });
+}
+
 
 export const initCommentsListeners = () => {
     const likesElements = document.querySelectorAll('.like-button');
@@ -13,10 +21,20 @@ export const initCommentsListeners = () => {
         button.addEventListener('click', (event) => {
             event.stopPropagation();
 
-            comments[index].isLiked = !comments[index].isLiked;
-            comments[index].likes += comments[index].isLiked ? 1 : -1;
+            if (comments[index].isLikeLoading) {
+                return;
+            }
 
+            comments[index].isLikeLoading = true;
             renderComments();
+
+            delay(2000).then(() => {
+                comments[index].isLiked = !comments[index].isLiked;
+                comments[index].likes += comments[index].isLiked ? 1 : -1;
+                comments[index].isLikeLoading = false;
+
+                renderComments();
+            });
         });
     });
 
