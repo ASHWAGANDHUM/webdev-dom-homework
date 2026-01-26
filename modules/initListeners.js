@@ -1,22 +1,100 @@
 import { renderComments } from './renderComments.js'
 import { comments } from './comments.js'
-import { listEl, textEl } from '../index.js'
+import { fetchAndRenderComments } from './fetchAndRenderComments.js'
+import { addComment } from './api.js';
+import { formatDate } from './formatDate.js';
+
+
+function delay(interval = 300) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+        resolve();
+        }, interval);
+    });
+}
+
 
 export const initCommentsListeners = () => {
-    listEl.addEventListener('click', (event) => {
-    const li = event.target.closest('li');
-    if (!li) return;
+    const likesElements = document.querySelectorAll('.like-button');
 
-    const index = Number(li.dataset.index);
-    const comment = comments[index];
+    likesElements.forEach((button, index) => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
 
-    if (event.target.closest('.like-button')) {
-        comment.isLiked = !comment.isLiked;
-        comment.likes += comment.isLiked ? 1 : -1;
-        renderComments();
-        return;
-    }
+            if (comments[index].isLikeLoading) {
+                return;
+            }
 
-    textEl.value = `> "${comment.text}" © ${comment.name}`;
+            comments[index].isLikeLoading = true;
+            renderComments();
+
+            delay(2000).then(() => {
+                comments[index].isLiked = !comments[index].isLiked;
+                comments[index].likes += comments[index].isLiked ? 1 : -1;
+                comments[index].isLikeLoading = false;
+
+                renderComments();
+            });
+        });
+    });
+
+    const commentElements = document.querySelectorAll('.comment');
+
+    commentElements.forEach((commentEl, index) => {
+        commentEl.addEventListener('click', () => {
+            const inputText = document.getElementById('input-text');
+            inputText.value = `> ${comments[index].text} ©${comments[index].author.name}`;
+        });
     });
 };
+
+export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceholderEl) => {
+
+    if (!nameEl.value.trim()) {
+        nameEl.classList.add("error");
+    }
+    if (!textEl.value.trim()) {
+        textEl.classList.add("error");
+    }
+    if (!nameEl.value.trim() || !textEl.value.trim())
+    return;
+
+    const now = new Date();
+    const nowDate = formatDate(now);
+
+    const newComment = {
+        name: nameEl.value,
+        date: nowDate,
+        text: textEl.value,
+        likes: 0,
+        isLiked: false
+    }
+
+    formEl.classList.add("hidden");
+    addCommentPlaceholderEl.classList.remove("hidden");
+
+    addComment(newComment)
+        .then(() => {
+            return fetchAndRenderComments()
+        })
+        .then(() => {
+            addCommentPlaceholderEl.classList.add("hidden");
+            formEl.classList.remove("hidden");
+
+            nameEl.value = "";
+            textEl.value = "";
+        })
+        .catch(() => {
+            addCommentPlaceholderEl.classList.add("hidden");
+            formEl.classList.remove("hidden");
+
+            buttonEl.disabled = false;
+            buttonEl.textContent = "Ошибка";
+            buttonEl.classList.add("error");
+            setTimeout(() => {
+                buttonEl.textContent = "Написать";
+                buttonEl.classList.remove("error");
+            }, 1500);
+        })
+
+}
