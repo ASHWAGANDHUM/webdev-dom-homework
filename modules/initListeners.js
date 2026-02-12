@@ -84,9 +84,15 @@ export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceh
             nameEl.value = "";
             textEl.value = "";
         })
-        .catch(() => {
+        .catch((error) => {
             addCommentPlaceholderEl.classList.add("hidden");
             formEl.classList.remove("hidden");
+
+            if (error.message.includes("Failed to fetch")) {
+                alert("Нет сети. Проверьте подключение.");
+            } else {
+                alert(error.message);
+            }
 
             buttonEl.disabled = false;
             buttonEl.textContent = "Ошибка";
@@ -96,5 +102,4 @@ export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceh
                 buttonEl.classList.remove("error");
             }, 1500);
         })
-
 }
