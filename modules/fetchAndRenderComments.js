@@ -12,7 +12,7 @@ export const fetchAndRenderComments = () => {
             if (error.message.includes("Failed to fetch")) {
                 alert("Нет сети. Комментарии не загрузились.")
             } else {
-                alert("Ошибка при загрузке комментариев.")
+                alert(error.message)
             }
         })
 }
