@@ -1,6 +1,5 @@
 import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js';
 import { initCommentsListeners, addNewComment } from './modules/initListeners.js';
-// import { formatDate } from './modules/formatDate.js';
 
 const nameEl = document.getElementById('input-name');
 const buttonEl = document.getElementById('button-add');

@@ -50,6 +50,9 @@ export const initCommentsListeners = () => {
 
 export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceholderEl) => {
 
+    const savedName = nameEl.value;
+    const savedText = textEl.value;
+
     if (!nameEl.value.trim()) {
         nameEl.classList.add("error");
     }
@@ -84,9 +87,23 @@ export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceh
             nameEl.value = "";
             textEl.value = "";
         })
-        .catch(() => {
+        .catch((error) => {
             addCommentPlaceholderEl.classList.add("hidden");
             formEl.classList.remove("hidden");
+            nameEl.value = savedName;
+            textEl.value = savedText;
+
+            if (error.message.includes("Failed to fetch")) {
+                alert("Нет сети. Проверьте подключение.");
+            }
+            else if (error.message === "Имя и комментарий не должны быть короче трёх символов!") {
+                nameEl.classList.add("error");
+                textEl.classList.add("error");
+                alert(error.message);
+            }
+            else {
+                alert(error.message);
+            }
 
             buttonEl.disabled = false;
             buttonEl.textContent = "Ошибка";
@@ -96,5 +113,4 @@ export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceh
                 buttonEl.classList.remove("error");
             }, 1500);
         })
-
 }
