@@ -1,6 +1,6 @@
 import { comments } from './comments.js'
 import { replaceStrings } from './replaceStrings.js'
-import { listEl } from '../index.js'
+import { listEl } from './elements.js'
 import { formatDate } from './formatDate.js'
 import { initCommentsListeners } from './initListeners.js'
 

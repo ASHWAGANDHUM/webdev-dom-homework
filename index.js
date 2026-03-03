@@ -1,12 +1,6 @@
 import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js';
 import { initCommentsListeners, addNewComment } from './modules/initListeners.js';
-
-const nameEl = document.getElementById('input-name');
-const buttonEl = document.getElementById('button-add');
-const listEl = document.getElementById('list');
-const textEl = document.getElementById('input-text');
-
-export { listEl, textEl };
+import { nameEl, textEl, buttonEl, listEl, formEl } from './modules/elements.js';
 
 listEl.innerHTML = `<li>Загрузка комментариев...</li>`;
 
@@ -15,8 +9,6 @@ addCommentPlaceholderEl.textContent = "Добавление комментари
 addCommentPlaceholderEl.className = "comment-placeholder hidden";
 
 listEl.after(addCommentPlaceholderEl);
-
-const formEl = document.querySelector('.add-form');
 
 fetchAndRenderComments()
 initCommentsListeners()
