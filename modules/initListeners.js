@@ -3,6 +3,7 @@ import { comments } from './comments.js'
 import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 import { addComment } from './api.js';
 import { formatDate } from './formatDate.js';
+import { nameEl, textEl, buttonEl, formEl, addCommentPlaceholderEl } from './elements.js';
 
 
 function delay(interval = 300) {
@@ -15,6 +16,19 @@ function delay(interval = 300) {
 
 
 export const initCommentsListeners = () => {
+
+    nameEl.addEventListener('input', () => {
+        nameEl.classList.remove('error');
+    });
+
+    textEl.addEventListener('input', () => {
+        textEl.classList.remove('error');
+    });
+
+    buttonEl.addEventListener('click', () => {
+        addNewComment(nameEl, textEl, buttonEl, formEl, addCommentPlaceholderEl)
+    });
+
     const likesElements = document.querySelectorAll('.like-button');
 
     likesElements.forEach((button, index) => {
@@ -48,7 +62,7 @@ export const initCommentsListeners = () => {
     });
 };
 
-export const addNewComment = (nameEl, textEl, buttonEl, formEl, addCommentPlaceholderEl) => {
+export const addNewComment = () => {
 
     const savedName = nameEl.value;
     const savedText = textEl.value;
