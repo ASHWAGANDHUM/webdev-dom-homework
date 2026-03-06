@@ -20,5 +20,8 @@
   "homepage": "https://github.com/ASHWAGANDHUM/webdev-dom-homework#readme",
   "dependencies": {
     "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1"
   }
 }
