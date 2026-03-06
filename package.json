@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/ASHWAGANDHUM/webdev-dom-homework/issues"
   },
-  "homepage": "https://github.com/ASHWAGANDHUM/webdev-dom-homework#readme"
+  "homepage": "https://github.com/ASHWAGANDHUM/webdev-dom-homework#readme",
+  "dependencies": {
+    "date-fns": "^4.1.0"
+  }
 }
