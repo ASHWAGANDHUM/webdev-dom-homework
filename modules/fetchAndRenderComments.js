@@ -9,8 +9,8 @@ export const fetchAndRenderComments = () => {
             renderComments()
         })
         .catch((error) => {
-            if (error.message.includes("Failed to fetch")) {
-                alert("Нет сети. Комментарии не загрузились.")
+            if (error.message.includes('Failed to fetch')) {
+                alert('Нет сети. Комментарии не загрузились.')
             } else {
                 alert(error.message)
             }

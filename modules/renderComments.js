@@ -1,12 +1,13 @@
 import { comments } from './comments.js'
 import { replaceStrings } from './replaceStrings.js'
-import { listEl } from '../index.js'
+import { listEl } from './elements.js'
 import { formatDate } from './formatDate.js'
-import { initCommentsListeners } from './initListeners.js'
+import { initCommentInteractionListeners } from './initListeners.js'
 
 export const renderComments = () => {
-    const commentsHtml = comments.map((comment, index) => {
-    return `
+    const commentsHtml = comments
+        .map((comment, index) => {
+            return `
     <li class="comment">
         <div class="comment-header">
         <div>${replaceStrings(comment.author.name)}</div>
@@ -18,14 +19,15 @@ export const renderComments = () => {
         <div class="comment-footer">
         <div class="likes">
             <span class="likes-counter">${comment.likes}</span>
-            <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""} ${comment.isLikeLoading ? "-loading-like": ""}"></button>
+            <button data-index="${index}" class="like-button ${comment.isLiked ? '-active-like' : ''} ${comment.isLikeLoading ? '-loading-like' : ''}"></button>
         </div>
         </div>
     </li>
-    `;
-    }).join("");
+    `
+        })
+        .join('')
 
-    listEl.innerHTML = commentsHtml;
+    listEl.innerHTML = commentsHtml
 
-    initCommentsListeners()
+    initCommentInteractionListeners()
 }
