@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml
+
+# Build artifacts
+/dist
+/build
+/out
+.cache/
+/coverage
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and OS files
+.idea/         # e.g., VS Code, WebStorm
+.vscode/
+*.suo
+*.user
+*.casc
+*.sdf
+.DS_Store      # macOS
+Thumbs.db      # Windows
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
