@@ -1,3 +1,5 @@
+const authHost = 'https://wedev-api.sky.pro/api/user'
+
 export const getComments = () => {
     return fetch(
         'https://wedev-api.sky.pro/api/v1/philipp-kogai/comments',
