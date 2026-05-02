@@ -1,7 +1,7 @@
 const host = 'https://wedev-api.sky.pro/api/v2/:philipp-kogai'
 const authHost = 'https://wedev-api.sky.pro/api/user'
 
-let token = ''
+export let token = ''
 
 export const setToken = (newToken) => {
     token = newToken

@@ -1,8 +1,10 @@
 import { comments } from './comments.js'
+import { token } from './api.js'
 import { replaceStrings } from './replaceStrings.js'
 import { listEl } from './elements.js'
 import { formatDate } from './formatDate.js'
 import { initCommentInteractionListeners } from './initListeners.js'
+import { renderLogin } from './renderLogin.js'
 
 export const renderComments = () => {
     const container = document.querySelector('.container')
@@ -56,10 +58,17 @@ export const renderComments = () => {
 
     const baseHTML = `
             <ul class="comments">${commentsHtml}</ul>
-            ${linkToLoginText}
+            ${token ? addCommentsHTML : linkToLoginText}
         `
 
     container.innerHTML = baseHTML
 
-    initCommentInteractionListeners()
+    if (token) {
+        initCommentInteractionListeners()
+        initFormListeners()
+    } else {
+        document.querySelector('.link-login').addEventListener('click', () => {
+            renderLogin()
+        })
+    }
 }

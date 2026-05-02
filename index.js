@@ -13,4 +13,3 @@ import {
 // listEl.after(addCommentPlaceholderEl)
 
 fetchAndRenderComments()
-initFormListeners()
