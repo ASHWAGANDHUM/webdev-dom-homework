@@ -9,8 +9,8 @@ import {
     addCommentPlaceholderEl,
 } from './modules/elements.js'
 
-listEl.innerHTML = `<li>Загрузка комментариев...</li>`
-listEl.after(addCommentPlaceholderEl)
+// listEl.innerHTML = `<li>Загрузка комментариев...</li>`
+// listEl.after(addCommentPlaceholderEl)
 
 fetchAndRenderComments()
 initFormListeners()
