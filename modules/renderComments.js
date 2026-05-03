@@ -1,5 +1,5 @@
 import { comments } from './comments.js'
-import { token } from './api.js'
+import { token, name } from './api.js'
 import { replaceStrings } from './replaceStrings.js'
 import { listEl } from './elements.js'
 import { formatDate } from './formatDate.js'
@@ -40,6 +40,8 @@ export const renderComments = () => {
                     type="text"
                     class="add-form-name"
                     placeholder="Введите ваше имя"
+                    readonly
+                    value="${name}"
                     id="input-name"
                 />
                 <textarea

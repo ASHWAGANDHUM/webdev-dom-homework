@@ -1,4 +1,4 @@
-const host = 'https://wedev-api.sky.pro/api/v2/:philipp-kogai'
+const host = 'https://wedev-api.sky.pro/api/v2/:filipp-kogai'
 const authHost = 'https://wedev-api.sky.pro/api/user'
 
 export let token = ''
