@@ -7,6 +7,12 @@ export const setToken = (newToken) => {
     token = newToken
 }
 
+export let name = ''
+
+export const setName = (newName) => {
+    name = newName
+}
+
 export const getComments = () => {
     return fetch(host + '/comments').then((response) => {
         if (response.status === 500) {

@@ -3,13 +3,7 @@ import { comments } from './comments.js'
 import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 import { addComment } from './api.js'
 import { formatDate } from './formatDate.js'
-import {
-    nameEl,
-    textEl,
-    buttonEl,
-    formEl,
-    addCommentPlaceholderEl,
-} from './elements.js'
+import { formEl, addCommentPlaceholderEl } from './elements.js'
 
 function delay(interval = 300) {
     return new Promise((resolve) => {
@@ -20,6 +14,12 @@ function delay(interval = 300) {
 }
 
 export const initFormListeners = () => {
+    const nameEl = document.getElementById('input-name')
+    const textEl = document.getElementById('input-text')
+    const buttonEl = document.getElementById('button-add')
+
+    if (!nameEl || !textEl || !buttonEl) return // если элементов нет - выходим (разобраться позже, как оптимизировать)
+
     nameEl.addEventListener('input', () => {
         nameEl.classList.remove('error')
     })
@@ -61,12 +61,31 @@ export const initCommentInteractionListeners = () => {
 
     commentElements.forEach((commentEl, index) => {
         commentEl.addEventListener('click', () => {
-            textEl.value = `> ${comments[index].text} ©${comments[index].author.name}`
+            const textEl = document.getElementById('input-text') // динамический запрос, т.к. baseHtml всё рушит
+            if (textEl) {
+                textEl.value = `> ${comments[index].text} ©${comments[index].author.name}`
+            }
         })
     })
 }
 
 export const addNewComment = () => {
+    const nameEl = document.getElementById('input-name')
+    const textEl = document.getElementById('input-text')
+    const buttonEl = document.getElementById('button-add')
+
+    const form = document.querySelector('.add-form')
+    const placeholder = document.querySelector('.comment-placeholder')
+
+    const addCommentPlaceholderEl = document.querySelector(
+        '.comment-placeholder',
+    )
+
+    if (!nameEl || !textEl || !buttonEl) {
+        console.error('Элементы формы не найдены!')
+        return
+    }
+
     const savedName = nameEl.value
     const savedText = textEl.value
 
@@ -89,23 +108,24 @@ export const addNewComment = () => {
         isLiked: false,
     }
 
-    formEl.classList.add('hidden')
-    addCommentPlaceholderEl.classList.remove('hidden')
+    if (form) form.classList.add('hidden')
+    if (placeholder) placeholder.classList.remove('hidden')
 
     addComment(newComment)
         .then(() => {
             return fetchAndRenderComments()
         })
         .then(() => {
-            addCommentPlaceholderEl.classList.add('hidden')
-            formEl.classList.remove('hidden')
+            if (placeholder) placeholder.classList.add('hidden')
+            if (form) form.classList.remove('hidden')
 
             nameEl.value = ''
             textEl.value = ''
         })
         .catch((error) => {
-            addCommentPlaceholderEl.classList.add('hidden')
-            formEl.classList.remove('hidden')
+            if (placeholder) placeholder.classList.add('hidden')
+            if (form) form.classList.remove('hidden')
+
             nameEl.value = savedName
             textEl.value = savedText
 

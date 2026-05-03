@@ -1,3 +1,6 @@
+import { login, setToken, setName } from './api.js'
+import { fetchAndRenderComments } from './fetchAndRenderComments.js'
+
 export const renderLogin = () => {
     const container = document.querySelector('.container')
 
@@ -27,4 +30,25 @@ export const renderLogin = () => {
         </section>
     `
     container.innerHTML = loginHtml
+
+    const loginEl = document.querySelector('#login')
+    const passwordEl = document.querySelector('#password')
+    const submitButtonEl = document.querySelector('.button-main')
+
+    if (!submitButtonEl) return
+
+    submitButtonEl.addEventListener('click', () => {
+        login(loginEl.value, passwordEl.value)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                setToken(data.user.token)
+                setName(data.user.name)
+                fetchAndRenderComments()
+            })
+            .catch((error) => {
+                alert('Ошибка входа: ' + error.message)
+            })
+    })
 }

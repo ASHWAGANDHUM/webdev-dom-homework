@@ -3,7 +3,10 @@ import { token } from './api.js'
 import { replaceStrings } from './replaceStrings.js'
 import { listEl } from './elements.js'
 import { formatDate } from './formatDate.js'
-import { initCommentInteractionListeners } from './initListeners.js'
+import {
+    initCommentInteractionListeners,
+    initFormListeners,
+} from './initListeners.js'
 import { renderLogin } from './renderLogin.js'
 
 export const renderComments = () => {
@@ -32,7 +35,6 @@ export const renderComments = () => {
         .join('')
 
     const addCommentsHTML = `
-
             <div class="add-form">
                 <input
                     type="text"

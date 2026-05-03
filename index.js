@@ -1,5 +1,5 @@
 import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js'
-import { initFormListeners } from './modules/initListeners.js'
+// import { initFormListeners } from './modules/initListeners.js'
 import {
     nameEl,
     textEl,
@@ -13,3 +13,4 @@ import {
 // listEl.after(addCommentPlaceholderEl)
 
 fetchAndRenderComments()
+// initFormListeners()
