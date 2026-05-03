@@ -18,7 +18,7 @@ export const initFormListeners = () => {
     const textEl = document.getElementById('input-text')
     const buttonEl = document.getElementById('button-add')
 
-    if (!nameEl || !textEl || !buttonEl) return // если элементов нет - выходим (разобраться позже, как оптимизировать)
+    if (!nameEl || !textEl || !buttonEl) return
 
     nameEl.addEventListener('input', () => {
         nameEl.classList.remove('error')
@@ -61,7 +61,7 @@ export const initCommentInteractionListeners = () => {
 
     commentElements.forEach((commentEl, index) => {
         commentEl.addEventListener('click', () => {
-            const textEl = document.getElementById('input-text') // динамический запрос, т.к. baseHtml всё рушит
+            const textEl = document.getElementById('input-text')
             if (textEl) {
                 textEl.value = `> ${comments[index].text} ©${comments[index].author.name}`
             }
@@ -74,8 +74,6 @@ export const addNewComment = () => {
     const textEl = document.getElementById('input-text')
     const buttonEl = document.getElementById('button-add')
 
-    // formEl и addCommentPlaceholderEl можно оставить из elements.js, если они не пересоздаются
-    // Но для надежности лучше найти и их, если они внутри container
     const form = document.querySelector('.add-form')
     const placeholder = document.querySelector('.comment-placeholder')
 
@@ -110,11 +108,8 @@ export const addNewComment = () => {
         isLiked: false,
     }
 
-    // разобраться позже
     if (form) form.classList.add('hidden')
     if (placeholder) placeholder.classList.remove('hidden')
-    // formEl.classList.add('hidden')
-    // addCommentPlaceholderEl.classList.remove('hidden')
 
     addComment(newComment)
         .then(() => {
@@ -123,8 +118,6 @@ export const addNewComment = () => {
         .then(() => {
             if (placeholder) placeholder.classList.add('hidden')
             if (form) form.classList.remove('hidden')
-            // addCommentPlaceholderEl.classList.add('hidden')
-            // formEl.classList.remove('hidden')
 
             nameEl.value = ''
             textEl.value = ''
@@ -132,8 +125,7 @@ export const addNewComment = () => {
         .catch((error) => {
             if (placeholder) placeholder.classList.add('hidden')
             if (form) form.classList.remove('hidden')
-            // addCommentPlaceholderEl.classList.add('hidden')
-            // formEl.classList.remove('hidden')
+
             nameEl.value = savedName
             textEl.value = savedText
 
