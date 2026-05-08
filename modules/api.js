@@ -1,7 +1,20 @@
+const host = 'https://wedev-api.sky.pro/api/v2/:filipp-kogai'
+const authHost = 'https://wedev-api.sky.pro/api/user'
+
+export let token = ''
+
+export const setToken = (newToken) => {
+    token = newToken
+}
+
+export let name = ''
+
+export const setName = (newName) => {
+    name = newName
+}
+
 export const getComments = () => {
-    return fetch(
-        'https://wedev-api.sky.pro/api/v1/philipp-kogai/comments',
-    ).then((response) => {
+    return fetch(host + '/comments').then((response) => {
         if (response.status === 500) {
             throw new Error('Сервер сломался, попробуйте позже')
         }
@@ -10,8 +23,11 @@ export const getComments = () => {
 }
 
 export const addComment = (newComment) => {
-    return fetch('https://wedev-api.sky.pro/api/v1/philipp-kogai/comments', {
+    return fetch(host + '/comments', {
         method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
             name: newComment.name,
             text: newComment.text,
@@ -27,5 +43,19 @@ export const addComment = (newComment) => {
             )
         }
         return response.json()
+    })
+}
+
+export const login = (login, password) => {
+    return fetch(authHost + '/login', {
+        method: 'POST',
+        body: JSON.stringify({ login: login, password: password }),
+    })
+}
+
+export const registration = (name, login, password) => {
+    return fetch(authHost, {
+        method: 'POST',
+        body: JSON.stringify({ name: name, login: login, password: password }),
     })
 }
